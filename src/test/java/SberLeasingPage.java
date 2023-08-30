@@ -35,5 +35,4 @@ public class SberLeasingPage {
         SelenideElement carModelAndMake = $x("//h1[@class='h2']");
         carModelAndMake.shouldHave(text(carMake));
     }
-
 }
