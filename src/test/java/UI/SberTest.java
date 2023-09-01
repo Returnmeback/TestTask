@@ -1,19 +1,35 @@
-import static com.codeborne.selenide.Selenide.*;
+package UI;
 
-import org.junit.Test;
+import UI.GooglePage;
+import UI.SberLeasingPage;
+import com.codeborne.selenide.WebDriverRunner;
+import com.codeborne.selenide.logevents.SelenideLogger;
+import io.qameta.allure.selenide.AllureSelenide;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 public class SberTest {
+
+    @BeforeAll
+    static void setupAllureReports() {
+        WebDriver driver = new ChromeDriver();
+        WebDriverRunner.setWebDriver(driver);
+        driver.get("https://google.com");
+        SelenideLogger.addListener("AllureSelenide", new AllureSelenide());
+    }
     @Test
     public void userSearchSber() {
-        String carMake = "KIA";
+        String carMake = "Sorento";
         SberLeasingPage sberLeasingPage = new SberLeasingPage();
-        open("https://google.com");
+
         new GooglePage().searchFor("СберЛизинг");
         GooglePage.selectSite("СберЛизинг — официальный сайт");
         sberLeasingPage.selectInputByText("Закрыть");
-        sberLeasingPage.clickParameters();
+        sberLeasingPage.selectInputByText("Подобрать по параметрам");
         sberLeasingPage.enterValue("Город", "Москва");
         sberLeasingPage.enterValue("Марка", "KIA");
-        sberLeasingPage.enterValue("Модель", "Sorento");
+        sberLeasingPage.enterValue("Модель", carMake);
         sberLeasingPage.setSliderInCategory("Мощность двигателя");
         sberLeasingPage.selectInputByText("полный");
         sberLeasingPage.selectInputByText("автомат");

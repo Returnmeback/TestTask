@@ -1,24 +1,23 @@
+package UI;
+
 import com.codeborne.selenide.SelenideElement;
-import org.openqa.selenium.By;
+import io.qameta.allure.Step;
 
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selectors.*;
 import static com.codeborne.selenide.Selenide.*;
 
 public class SberLeasingPage {
-    public void clickParameters() {
-        $x("//a[contains(text(),'Подобрать по параметрам')]").click();
-    }
+    @Step ("Выбор элемента по тексту")
     public void selectInputByText(String text) {
         $(byText(text)).click();
     }
     public void enterValue(String text, String setValue) {
-        $x("//span[contains(text(),'" + text + "')]").click();
-        $x("//label[contains(text(),'" + setValue + "')]").click();
+        $x("//span[contains(text(),'%s')]".formatted(text)).click();
+        $x("//label[contains(text(), '%s')]".formatted(setValue)).click();
     }
-    private final By slider = byClassName("el-slider__runway");
-    public void setSliderInCategory(String category){
-        $(byText(category)).parent().scrollTo().find(slider).click();
+    public void setSliderInCategory(String category) {
+        $(byText(category)).parent().scrollTo().find((byClassName("el-slider__runway"))).click();
     }
     public void invokeCarColorFilter() {
         $x("//div[@class='sbl-filter-block__selector']").click();
@@ -27,7 +26,7 @@ public class SberLeasingPage {
         $x("//a[@class='sbl-btn sbl-btn_medium w-100 sbl-btn_detail']").click();
     }
     public void checkIfOptionsPageHasCarMake (String carMake) {
-        SelenideElement carModel = $x("(//div[@class='tags-filter__item'])[2]");
+        SelenideElement carModel = $x("//div[@class='car-card__item-mark']");
         carModel.shouldHave(text(carMake));
     }
     public void checkIfSelectedOptionHasCarMake (String carMake) {
