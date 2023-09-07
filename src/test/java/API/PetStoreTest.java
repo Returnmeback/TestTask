@@ -15,7 +15,7 @@ public class PetStoreTest {
         Integer code = 200;
         String type = "unknown";
         String message = "ok";
-        UserData user = new UserData(1, "Dimonchik", "Dima", "Pidr", "idiot@mail.com","idiot","891764343",2);
+        UserData user = new UserData(1, "Dimonchik", "Dima", "HI", "QA@mail.com","new","891764343",2);
         UserIsCreated userIsCreated = given()
                 .body(user)
                 .when()
