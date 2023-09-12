@@ -1,27 +1,20 @@
 package UI;
 
-import UI.GooglePage;
-import UI.SberLeasingPage;
-import com.codeborne.selenide.WebDriverRunner;
-import com.codeborne.selenide.logevents.SelenideLogger;
-import io.qameta.allure.selenide.AllureSelenide;
-import org.junit.jupiter.api.BeforeAll;
+import com.codeborne.selenide.Selenide;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-public class SberTest {
+import org.junit.jupiter.api.extension.ExtendWith;
+import sberleasing.UI.extension.SetupUI;
+import sberleasing.UI.page.GooglePage;
+import sberleasing.UI.page.SberLeasingPage;
 
-    @BeforeAll
-    static void setupAllureReports() {
-        WebDriver driver = new ChromeDriver();
-        WebDriverRunner.setWebDriver(driver);
-        driver.get("https://google.com");
-        SelenideLogger.addListener("AllureSelenide", new AllureSelenide());
-    }
+@ExtendWith(SetupUI.class)
+public class SberTest {
+    private final SberLeasingPage sberLeasingPage = new SberLeasingPage();
+
     @Test
     public void userSearchSber() {
-        String carMake = "Sorento";
-        SberLeasingPage sberLeasingPage = new SberLeasingPage();
+        Selenide.open();
+        final String carMake = "Sorento";
 
         new GooglePage().searchFor("СберЛизинг");
         GooglePage.selectSite("СберЛизинг — официальный сайт");

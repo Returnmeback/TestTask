@@ -1,4 +1,4 @@
-package UI;
+package sberleasing.UI.page;
 
 import org.openqa.selenium.By;
 

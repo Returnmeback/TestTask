@@ -1,44 +1,55 @@
 package API;
 
-import org.assertj.core.api.Assertions;
+import com.fasterxml.jackson.databind.JsonNode;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
+import sberleasing.api.dto.UserDto;
 
 import java.util.List;
 
 import static io.restassured.RestAssured.given;
+import static sberleasing.api.spec.Specifications.installSpecification;
 
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class PetStoreTest {
-    private final static String URL = "https://petstore.swagger.io/v2";
+
+
+    private final String userName = "Dimonchik777";
+
     @Test
-    public void createUser () {
-        Specifications.installSpecification(Specifications.requestSpecification(URL),Specifications.responseSpecOK200());
-        Integer code = 200;
-        String type = "unknown";
-        String message = "ok";
-        UserData user = new UserData(1, "Dimonchik", "Dima", "HI", "QA@mail.com","new","891764343",2);
-        UserIsCreated userIsCreated = given()
+    @Order(1)
+    public void createUser() {
+        installSpecification(200);
+        List<UserDto> user = List.of(new UserDto(0L, userName, "Dima", "HI", "QA@mail.com", "new", "891764343", 0));
+        var t = given()
                 .body(user)
                 .when()
                 .post("/user/createWithList")
                 .then().log().all()
-                .extract().as(UserIsCreated.class);
+                .extract().as(JsonNode.class);
+        System.out.println(user.get(0).getUsername());
     }
+
     @Test
-    public void getUserByUserName () {
-        Specifications.installSpecification(Specifications.requestSpecification(URL),Specifications.responseSpecOK200());
-        List<UserData> users = given().
+    @Order(2)
+    public void getUserByUserName() {
+        installSpecification(200);
+        var users = given().
                 when()
-                .get("/user/Dimonchik")
+                .get("/user/%s".formatted(userName))
                 .then().log().all()
-                .extract().body().jsonPath().getList("User", UserData.class);
+                .extract().body().as(UserDto.class);
     }
+
     @Test
-    public void deleteUser () {
-        Specifications.installSpecification(Specifications.requestSpecification(URL),Specifications.responseSpecError404());
-        List<UserData> users = given().
+    @Order(3)
+    public void deleteUser() {
+        installSpecification(200);
+        var users = given().
                 when()
-                .delete("/user/Dimonchik")
-                .then().log().all()
-                .extract().body().jsonPath().get();
+                .delete("/user/%s".formatted(userName))
+                .then().log().all();
     }
 }
