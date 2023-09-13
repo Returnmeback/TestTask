@@ -1,8 +1,11 @@
 package UI;
 
 import com.codeborne.selenide.Selenide;
+import com.codeborne.selenide.WebDriverRunner;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 import sberleasing.ui.extension.SetupUI;
 import sberleasing.ui.steps.GoogleSearchSteps;
 import sberleasing.ui.steps.SberLeasingSteps;
@@ -14,7 +17,10 @@ public class SberTest {
 
     @Test
     public void userSearchSber() {
-        Selenide.open("https://www.google.com/");
+//        Selenide.open("https://www.google.com/");
+        WebDriver driver = new ChromeDriver();
+        WebDriverRunner.setWebDriver(driver);
+        driver.get("https://google.com");
         final String carMake = "Sorento";
         googleSearchSteps.googleSearch("СберЛизинг");
         googleSearchSteps.openSiteFromGoogleSearch("СберЛизинг — официальный сайт");
