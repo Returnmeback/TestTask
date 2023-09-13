@@ -6,28 +6,26 @@ import io.restassured.builder.ResponseSpecBuilder;
 import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
-import lombok.SneakyThrows;
+
+import static io.restassured.RestAssured.given;
 
 public class Specifications {
     private final static String URL = "https://petstore.swagger.io/v2";
 
-    public static RequestSpecification requestSpecification(String url) {
+    private static RequestSpecification requestSpecification() {
         return new RequestSpecBuilder()
-                .setBaseUri(url)
+                .setBaseUri(URL)
                 .setContentType(ContentType.JSON)
                 .build();
     }
 
-    private static ResponseSpecification checkResponseCode(int expectedStatusCode) {
+    public static ResponseSpecification checkStatusCodeDependingOnRequest(int statusCode) {
         return new ResponseSpecBuilder()
-                .expectStatusCode(expectedStatusCode)
+                .expectStatusCode(statusCode)
                 .build();
     }
-
-
-    @SneakyThrows
-    public static void installSpecification(int expectedStatusCode) {
-        RestAssured.requestSpecification = requestSpecification(URL);
-        RestAssured.responseSpecification = checkResponseCode(expectedStatusCode);
+    public static void installSpecification() {
+        RestAssured.requestSpecification = requestSpecification();
     }
 }
+

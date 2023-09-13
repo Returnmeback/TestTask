@@ -1,4 +1,4 @@
-package sberleasing.UI.page;
+package sberleasing.ui.page;
 
 import org.openqa.selenium.By;
 
@@ -7,7 +7,7 @@ import static com.codeborne.selenide.Selenide.$x;
 
 
 public class GooglePage {
-    public static void selectSite(String linkName) {
+    public  void selectSite(String linkName) {
         $x("//h3[contains(text(), '%s')]".formatted(linkName)).click();
     }
     public void searchFor(String text) {

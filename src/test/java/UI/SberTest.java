@@ -3,37 +3,37 @@ package UI;
 import com.codeborne.selenide.Selenide;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import sberleasing.UI.extension.SetupUI;
-import sberleasing.UI.page.GooglePage;
-import sberleasing.UI.page.SberLeasingPage;
+import sberleasing.ui.extension.SetupUI;
+import sberleasing.ui.steps.GoogleSearchSteps;
+import sberleasing.ui.steps.SberLeasingSteps;
 
 @ExtendWith(SetupUI.class)
 public class SberTest {
-    private final SberLeasingPage sberLeasingPage = new SberLeasingPage();
+    private final GoogleSearchSteps googleSearchSteps = new GoogleSearchSteps();
+    private final SberLeasingSteps sberLeasingSteps = new SberLeasingSteps();
 
     @Test
     public void userSearchSber() {
-        Selenide.open();
+        Selenide.open("https://www.google.com/");
         final String carMake = "Sorento";
-
-        new GooglePage().searchFor("СберЛизинг");
-        GooglePage.selectSite("СберЛизинг — официальный сайт");
-        sberLeasingPage.selectInputByText("Закрыть");
-        sberLeasingPage.selectInputByText("Подобрать по параметрам");
-        sberLeasingPage.enterValue("Город", "Москва");
-        sberLeasingPage.enterValue("Марка", "KIA");
-        sberLeasingPage.enterValue("Модель", carMake);
-        sberLeasingPage.setSliderInCategory("Мощность двигателя");
-        sberLeasingPage.selectInputByText("полный");
-        sberLeasingPage.selectInputByText("автомат");
-        sberLeasingPage.selectInputByText("кроссовер");
-        sberLeasingPage.selectInputByText("бензин");
-        sberLeasingPage.invokeCarColorFilter();
-        sberLeasingPage.selectInputByText("черный");
-        sberLeasingPage.setSliderInCategory("Объём двигателя");
-        sberLeasingPage.selectInputByText("Показать все предложения");
-        sberLeasingPage.checkIfOptionsPageHasCarMake(carMake);
-        sberLeasingPage.clickButtonShowAllOffers();
-        sberLeasingPage.checkIfSelectedOptionHasCarMake(carMake);
+        googleSearchSteps.googleSearch("СберЛизинг");
+        googleSearchSteps.openSiteFromGoogleSearch("СберЛизинг — официальный сайт");
+        sberLeasingSteps.selectInputByText("Закрыть");
+        sberLeasingSteps.selectInputByText("Подобрать по параметрам");
+        sberLeasingSteps.enterValue("Город", "Москва");
+        sberLeasingSteps.enterValue("Марка", "KIA");
+        sberLeasingSteps.enterValue("Модель", carMake);
+        sberLeasingSteps.setSliderByCategoryName("Мощность двигателя");
+        sberLeasingSteps.selectInputByText("полный");
+        sberLeasingSteps.selectInputByText("автомат");
+        sberLeasingSteps.selectInputByText("кроссовер");
+        sberLeasingSteps.selectInputByText("бензин");
+        sberLeasingSteps.setColor();
+        sberLeasingSteps.selectInputByText("черный");
+        sberLeasingSteps.setSliderByCategoryName("Объём двигателя");
+        sberLeasingSteps.selectInputByText("Показать все предложения");
+        sberLeasingSteps.checkIfOptionsPageHasCarMake(carMake);
+        sberLeasingSteps.clickButtonShowAllOffers();
+        sberLeasingSteps.checkIfSelectedOptionHasCarMake(carMake);
     }
 }
